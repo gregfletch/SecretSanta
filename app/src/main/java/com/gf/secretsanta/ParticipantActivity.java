@@ -41,6 +41,8 @@ public class ParticipantActivity extends AppCompatActivity
     private CheckboxCursorRecyclerViewAdapter m_adapter;
     private boolean m_isNew = false;
 
+    private static final int MAXIMUM_EXCLUSIONS = 2;
+
     private static final String TAG = "ParticipantActivity";
 
     @Override
@@ -97,11 +99,9 @@ public class ParticipantActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_participants, menu);
 
-        if(m_isNew) {
-            MenuItem deleteItem = menu.findItem(R.id.action_delete);
-            deleteItem.setEnabled(false);
-            deleteItem.setVisible(false);
-        }
+        MenuItem deleteItem = menu.findItem(R.id.action_delete);
+        deleteItem.setEnabled(m_isNew);
+        deleteItem.setVisible(m_isNew);
         return true;
     }
 
@@ -175,6 +175,12 @@ public class ParticipantActivity extends AppCompatActivity
         } else if(!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
             Snackbar.make(content, R.string.participant_email_invalid, Snackbar.LENGTH_LONG)
                     .show();
+            return;
+        }
+
+        if(m_participant.getExclusionList().size() > MAXIMUM_EXCLUSIONS) {
+            Snackbar.make(content, getString(R.string.exclude_list_too_large, MAXIMUM_EXCLUSIONS),
+                    Snackbar.LENGTH_LONG).show();
             return;
         }
 

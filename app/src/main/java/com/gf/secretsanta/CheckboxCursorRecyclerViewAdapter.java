@@ -58,7 +58,7 @@ class CheckboxCursorRecyclerViewAdapter
         m_dataValid = cursorPresent;
         m_context = context;
         m_rowIDColumn = cursorPresent ? c.getColumnIndexOrThrow(
-                ParticipantContract.ParticipantEntry.COLUMN_NAME_PARTICIPANT_ID): -1;
+                ParticipantEntry.COLUMN_NAME_PARTICIPANT_ID): -1;
         m_changeObserver = new ChangeObserver();
         m_dataSetObserver = new MyDataSetObserver();
         m_excludeList = excludeList;
@@ -361,6 +361,4 @@ class CheckboxCursorRecyclerViewAdapter
             changeCursor(result);
         }
     }
-
-    private static final int ITEM_CLICK_DELAY = 70;
 }

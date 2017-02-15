@@ -25,11 +25,17 @@ import com.gf.secretsanta.model.Participant;
 import com.gf.secretsanta.model.ParticipantContract.ParticipantEntry;
 import com.gf.secretsanta.model.ParticipantDbHelper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements CursorRecyclerViewAdapter.OnItemClickListener {
 
     private Cursor m_cursor;
     private CursorRecyclerViewAdapter m_adapter;
+
+    private static final int MINIMUM_NUMBER_OF_PARTICIPANTS = 3;
 
     public static final int ADD_PARTICIPANT_REQUEST_CODE = 1;
     public static final int UPDATE_PARTICIPANT_REQUEST_CODE = 2;
@@ -77,14 +83,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem pickNamesItems = menu.findItem(R.id.action_pick_names);
+        pickNamesItems.setEnabled(m_cursor.getCount() >= MINIMUM_NUMBER_OF_PARTICIPANTS);
+        pickNamesItems.setVisible(m_cursor.getCount() >= MINIMUM_NUMBER_OF_PARTICIPANTS);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_about) {
+        if(id == R.id.action_about) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_about)
                     .setMessage(R.string.about_text)
@@ -108,6 +122,11 @@ public class MainActivity extends AppCompatActivity
                     })
                     .show();
             return true;
+        } else if(id == R.id.action_pick_names) {
+            ArrayList<Participant> participantList = getParticipantList();
+            Intent intent = new Intent(MainActivity.this, NamePickActivity.class);
+            intent.putExtra(Participant.PARTICIPANT_INTENT_EXTRA_LABEL, participantList);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -185,6 +204,40 @@ public class MainActivity extends AppCompatActivity
         touchHelper.attachToRecyclerView(recyclerView);
     }
 
+    private ArrayList<Participant> getParticipantList() {
+        ArrayList<Participant> participantList = new ArrayList<>();
+
+        Cursor c = m_cursor;
+
+        if(c.moveToFirst()) {
+            while(!c.isAfterLast()) {
+                String id = c.getString(c.getColumnIndex(
+                        ParticipantEntry.COLUMN_NAME_PARTICIPANT_ID));
+                String name = c.getString(c.getColumnIndex(
+                        ParticipantEntry.COLUMN_NAME_PARTICIPANT_NAME));
+                String emailAddress = c.getString(c.getColumnIndex(
+                        ParticipantEntry.COLUMN_NAME_PARTICIPANT_EMAIL_ADDRESS));
+                String exclusionString = c.getString(c.getColumnIndex(
+                        ParticipantEntry.COLUMN_NAME_PARTICIPANT_EXCLUSION_LIST));
+
+                Participant participant = new Participant();
+                participant.setId(id);
+                participant.setName(name);
+                participant.setEmailAddress(emailAddress);
+
+                List<String> exclusionList = new ArrayList<>();
+                Collections.addAll(exclusionList, exclusionString.split(","));
+                participant.setExclusionList(exclusionList);
+
+                participantList.add(participant);
+
+                c.moveToNext();
+            }
+        }
+
+        return participantList;
+    }
+
     private class ReadParticipantsTask extends AsyncTask<Void, Void, Void> {
         private Context m_context;
 
@@ -223,6 +276,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void result) {
+            invalidateOptionsMenu();
             m_adapter = new CursorRecyclerViewAdapter(MainActivity.this, m_cursor);
             setupRecyclerView();
         }

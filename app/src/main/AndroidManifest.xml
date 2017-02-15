@@ -36,6 +36,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gf.secretsanta.MainActivity" />
         </activity>
+        <activity
+            android:name=".NamePickActivity"
+            android:label="@string/title_activity_name_pick"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gf.secretsanta.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

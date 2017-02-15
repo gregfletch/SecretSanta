@@ -5,6 +5,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_licenses">Licenses</string>
     <string name="action_ok">OK</string>
+    <string name="action_pick_names">Pick Names</string>
     <string name="about_text">Secret Santa is a simple app for managing and organizing a Secret Santa gift share amongst friends and family.</string>
     <string name="title_activity_license">LicenseActivity</string>
     <string name="licenses_title">Licenses</string>
@@ -15,6 +16,7 @@
     <string name="title_activity_participant">ParticipantActivity</string>
     <string name="add_participant_title">Add Participant</string>
     <string name="edit_participant_title">Edit Participant</string>
+    <string name="name_pick_title">Pick Names</string>
     <string name="participant_name_hint">Name</string>
     <string name="participant_email_hint">Email</string>
     <string name="participant_added_success">New participant %s added successfully.</string>
@@ -26,4 +28,12 @@
     <string name="participant_email_required">The email address field is required.</string>
     <string name="participant_email_invalid">The email address provided is invalid.</string>
     <string name="exclude_list_description">Select all of the participants from the list below for whom the current participant should not buy for (for example, a spouse).</string>
+    <string name="exclude_list_too_large">A participant may only exclude at most %d other participants.</string>
+    <string name="title_activity_name_pick">NamePickActivity</string>
+    <string name="pairing_message">%1$s buys for %2$s.</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="pairing_error_message">Error generating Secret Santa pairings, please try again and verify the participant exclusion lists.</string>
+    <string name="email_subject">Secret Santa %d</string>
+    <string name="email_body">Merry Christmas, All!\n\nThis message is to let you know that you are part of a Shhhhecret Santa! The following is the list of who is buying for whom:\n\n%s\n\nCheers and Merry Christmas!</string>
+    <string name="email_chooser_title">Select e-mail app to send with&#8230;</string>
 </resources>

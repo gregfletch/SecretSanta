@@ -65,6 +65,22 @@ public class Participant implements Serializable {
         m_excludeList.remove(participantId);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        boolean isEqual = false;
+
+        if(o instanceof Participant) {
+            isEqual = getId().equals(((Participant) o).getId());
+        }
+
+        return isEqual;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " (" + getEmailAddress() + ")";
+    }
+
     private String m_id;
     private String m_name;
     private String m_emailAddress;

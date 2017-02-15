@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.gf.secretsanta.MainActivity">
     <item
+        android:id="@+id/action_pick_names"
+        android:orderInCategory="10"
+        android:title="@string/action_pick_names"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
         android:title="@string/action_about"
