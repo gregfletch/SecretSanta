@@ -28,6 +28,11 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void enableHyperlinks() {
+        TextView icons = (TextView) findViewById(R.id.icons);
+        if(icons != null) {
+            icons.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+
         TextView appcompat = (TextView) findViewById(R.id.appcompat);
         if (appcompat != null) {
             appcompat.setMovementMethod(LinkMovementMethod.getInstance());
