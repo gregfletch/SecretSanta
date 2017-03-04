@@ -178,7 +178,8 @@ public class ParticipantActivity extends AppCompatActivity
             return;
         }
 
-        if(m_participant.getExclusionList().size() > MAXIMUM_EXCLUSIONS) {
+        if(m_participant.getExclusionList() != null &&
+                m_participant.getExclusionList().size() > MAXIMUM_EXCLUSIONS) {
             Snackbar.make(content, getString(R.string.exclude_list_too_large, MAXIMUM_EXCLUSIONS),
                     Snackbar.LENGTH_LONG).show();
             return;
